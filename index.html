@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8' />
+  <title>Corona Testmöglichkeiten Köln</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+
+    th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #4CAF50;
+      color: white;
+      }
+  </style>
+</head>
+
+<body>
+  <div id='map' style="padding: 2%;"></div>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvYnJ1bmkiLCJhIjoiY2tuNGdtODQ3MW95cTJ2cGMydG55NmVvZyJ9.r1c6ZZHO09sqjY7nf3z8lw';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/geobruni/ckn4jrhbx1rx417mrzjft8nrl/draft', // replace this with your style URL
+      center: [6.948101, 50.933858],
+      zoom: 12
+    });
+
+
+    map.on('click', function (e) {
+      var features = map.queryRenderedFeatures(e.point, {
+        layers: ['koelnde-teststellen'] // replace this with the name of the layer
+      });
+
+      if (!features.length) {
+        return;
+      }
+
+      var feature = features[0];
+
+      var popup = new mapboxgl.Popup({ offset: [0, 5] })
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(
+          '<h3>' +
+          feature.properties.title +
+          '</h3>'+
+          feature.properties.details
+        )
+        .setLngLat(feature.geometry.coordinates)
+        .setMaxWidth("25%")
+        .addTo(map);
+    });
+  </script>
+</body>
+
+</html>
