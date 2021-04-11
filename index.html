@@ -41,7 +41,7 @@
 </head>
 
 <body>
-  <div id='map' style="padding: 2%;"></div>
+  <div id='map'></div>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvYnJ1bmkiLCJhIjoiY2tuNGdtODQ3MW95cTJ2cGMydG55NmVvZyJ9.r1c6ZZHO09sqjY7nf3z8lw';
     var map = new mapboxgl.Map({
@@ -63,7 +63,7 @@
 
       var feature = features[0];
 
-      var popupDetails = new mapboxgl.Popup({offset: [0, 0], closeButton: false})
+      var popupDetails = new mapboxgl.Popup({offset: [0, -20], closeButton: false})
         .setLngLat(feature.geometry.coordinates)
         .setHTML(
           getPopupHtml(feature)      
