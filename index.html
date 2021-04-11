@@ -20,6 +20,10 @@
       width: 100%;
     }
 
+    button{
+      margin: 0.2em
+    }
+
     td, th {
       border: 1px solid #ddd;
       padding: 8px;
@@ -50,7 +54,7 @@
 
     map.on('click', function (e) {
       var features = map.queryRenderedFeatures(e.point, {
-        layers: ['koelnde-teststellen'] // replace this with the name of the layer
+        layers: ['testlocations-detailed'] // replace this with the name of the layer
       });
 
       if (!features.length) {
@@ -59,18 +63,24 @@
 
       var feature = features[0];
 
-      var popup = new mapboxgl.Popup({ offset: [0, 5] })
+      var popupDetails = new mapboxgl.Popup({offset: [0, 0], closeButton: false})
         .setLngLat(feature.geometry.coordinates)
         .setHTML(
-          '<h3>' +
-          feature.properties.title +
-          '</h3>'+
-          feature.properties.details
+          getPopupHtml(feature)      
         )
-        .setLngLat(feature.geometry.coordinates)
-        .setMaxWidth("25%")
         .addTo(map);
     });
+
+    function getPopupHtml(feature){
+      var popupHtml = ''
+      var title = '<h3>' + feature.properties.title + '</h3>'
+      var address = '<p>' + feature.properties.address_street + ', ' + feature.properties.address_city + '</p>' 
+      var buttonAppointment = (feature.properties.url_booking) ? '<button class="primary-btn" onclick="window.location.href=\'' +  feature.properties.url_booking + '\';">Termin buchen</button>' : ''
+      var buttonGeneral = (feature.properties.url_info) ? '<button onclick="window.location.href=\'' + feature.properties.url_info + '\';">Details</button>' : ''
+      popupHtml = title + address + buttonAppointment + buttonGeneral    
+      return popupHtml
+    };
+
   </script>
 </body>
 
