@@ -20,6 +20,22 @@
       width: 100%;
     }
 
+    .hidden{
+      display: none;
+      visibility: hidden;
+    }
+
+    .overlay-box{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      background: #666666;
+      opacity: .8;
+      z-index: 1000;
+    }
+
     button{
       margin: 0.2em
     }
@@ -42,6 +58,7 @@
 
 <body>
   <div id='map'></div>
+  <div id='details' class='hidden'><h1>demo</h1></div>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvYnJ1bmkiLCJhIjoiY2tuNGdtODQ3MW95cTJ2cGMydG55NmVvZyJ9.r1c6ZZHO09sqjY7nf3z8lw';
     var map = new mapboxgl.Map({
@@ -54,10 +71,12 @@
 
     map.on('click', function (e) {
       var features = map.queryRenderedFeatures(e.point, {
-        layers: ['testlocations-detailed'] // replace this with the name of the layer
+        layers: ['testlocations-detailed'] 
       });
 
       if (!features.length) {
+        let element = document.getElementById('details');
+        element.classList.add("hidden")
         return;
       }
 
@@ -65,9 +84,7 @@
 
       var popupDetails = new mapboxgl.Popup({offset: [0, -20], closeButton: false})
         .setLngLat(feature.geometry.coordinates)
-        .setHTML(
-          getPopupHtml(feature)      
-        )
+        .setHTML(getPopupHtml(feature))
         .addTo(map);
     });
 
@@ -76,10 +93,16 @@
       var title = '<h3>' + feature.properties.title + '</h3>'
       var address = '<p>' + feature.properties.address_street + ', ' + feature.properties.address_city + '</p>' 
       var buttonAppointment = (feature.properties.url_booking) ? '<button class="primary-btn" onclick="window.location.href=\'' +  feature.properties.url_booking + '\';">Termin buchen</button>' : ''
-      var buttonGeneral = (feature.properties.url_info) ? '<button onclick="window.location.href=\'' + feature.properties.url_info + '\';">Details</button>' : ''
+      var buttonGeneral = (feature.properties.url_info) ? '<button onclick="showDetailDiv();">Details</button>' : ''
       popupHtml = title + address + buttonAppointment + buttonGeneral    
       return popupHtml
     };
+
+    function showDetailDiv(){
+      let element = document.getElementById('details');
+      element.classList.remove("hidden")
+      element.classList.add("overlay-box")
+    }
 
   </script>
 </body>
