@@ -12,6 +12,28 @@
       margin: 0;
       padding: 0;
     }
+    table {
+      margin: 2em;
+      margin-bottom: 3em;
+    }
+
+    td,
+    th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    button {
+      margin: 0.2em
+    }
 
     #map {
       position: absolute;
@@ -20,45 +42,56 @@
       width: 100%;
     }
 
-    .hidden{
-      display: none;
+    .cd-panel {
+      position: fixed;
       visibility: hidden;
+      transition: visibility 0s 0.6s;
     }
 
-    .overlay-box{
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      background: #666666;
-      opacity: .8;
-      z-index: 1000;
+    .cd-panel p {
+      padding-left: 5%;
     }
 
-    button{
-      margin: 0.2em
+    .cd-panel.cd-panel--is-visible {
+      visibility: visible;
+      transition: visibility 0s 0s;
     }
 
-    td, th {
-      border: 1px solid #ddd;
-      padding: 8px;
+    .cd-panel__container {
+      position: fixed;
+      padding: 2%;
+      max-width: 50%;
+      height: 100%;
+      top: 0;
+      transition: transform 0.3s 0.3s;
+      z-index: 1;
+      background: white;
+      opacity: .9;
+      overflow: auto;
     }
 
+    .cd-panel--from-right .cd-panel__container {
+      right: 0;
+      transform: translate3d(100%, 0, 0);
+    }
 
-    th {
-      padding-top: 12px;
-      padding-bottom: 12px;
-      text-align: left;
-      background-color: #4CAF50;
-      color: white;
-      }
+    .cd-panel--is-visible .cd-panel__container {
+      transform: translate3d(0, 0, 0);
+      transition-delay: 0s;
+    }
   </style>
 </head>
 
 <body>
   <div id='map'></div>
-  <div id='details' class='hidden'><h1>demo</h1></div>
+  <div id='details' class="cd-panel cd-panel--from-right">
+    <div class="cd-panel__container">
+      <div id='details-content' class="cd-panel__content">
+        <p>Platzhalter</p>
+      </div> <!-- cd-panel__content -->
+    </div> <!-- cd-panel__container -->
+  </div> <!-- cd-panel -->
+
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvYnJ1bmkiLCJhIjoiY2tuNGdtODQ3MW95cTJ2cGMydG55NmVvZyJ9.r1c6ZZHO09sqjY7nf3z8lw';
     var map = new mapboxgl.Map({
@@ -68,40 +101,54 @@
       zoom: 12
     });
 
-
     map.on('click', function (e) {
       var features = map.queryRenderedFeatures(e.point, {
-        layers: ['testlocations-detailed'] 
+        layers: ['testlocations-detailed']
       });
 
       if (!features.length) {
         let element = document.getElementById('details');
-        element.classList.add("hidden")
+        element.classList.remove("cd-panel--is-visible")
         return;
       }
 
       var feature = features[0];
 
-      var popupDetails = new mapboxgl.Popup({offset: [0, -20], closeButton: false})
+      var popupDetails = new mapboxgl.Popup({ offset: [0, -20], closeButton: false })
         .setLngLat(feature.geometry.coordinates)
         .setHTML(getPopupHtml(feature))
         .addTo(map);
+
+      document.getElementById('details-content').innerHTML = getDetailsHtml(feature)
+
     });
 
-    function getPopupHtml(feature){
+    function getDetailsHtml(feature) {
+      result = '<h3>' + feature.properties.title + '</h3>'
+      var featureDetails = feature.properties.details;
+      if (feature.properties.url_info) {
+        result = result + '<a href=\"' + feature.properties.url_info + '\">' + feature.properties.url_info + '</a>'
+      }
+      if (featureDetails !== undefined && featureDetails !== null && featureDetails !== '') {
+        result = result + featureDetails;
+      }
+
+      return result;
+    }
+
+    function getPopupHtml(feature) {
       var popupHtml = ''
       var title = '<h3>' + feature.properties.title + '</h3>'
-      var address = '<p>' + feature.properties.address_street + ', ' + feature.properties.address_city + '</p>' 
-      var buttonAppointment = (feature.properties.url_booking) ? '<button class="primary-btn" onclick="window.location.href=\'' +  feature.properties.url_booking + '\';">Termin buchen</button>' : ''
-      var buttonGeneral = (feature.properties.url_info) ? '<button onclick="showDetailDiv();">Details</button>' : ''
-      popupHtml = title + address + buttonAppointment + buttonGeneral    
+      var address = '<p>' + feature.properties.address_street + ', ' + feature.properties.address_city + '</p>'
+      var buttonAppointment = (feature.properties.url_booking) ? '<button class="primary-btn" onclick="window.location.href=\'' + feature.properties.url_booking + '\';">Termin buchen</button>' : ''
+      var buttonGeneral = (feature.properties.url_info || feature.properties.details) ? '<button onclick="showDetailDiv();">Details</button>' : ''
+      popupHtml = title + address + buttonAppointment + buttonGeneral
       return popupHtml
     };
 
-    function showDetailDiv(){
+    function showDetailDiv() {
       let element = document.getElementById('details');
-      element.classList.remove("hidden")
-      element.classList.add("overlay-box")
+      element.classList.add("cd-panel--is-visible")
     }
 
   </script>
