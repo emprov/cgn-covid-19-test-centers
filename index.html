@@ -165,7 +165,7 @@
     });
 
     function getDetailsHtml(feature) {
-      result = '<h3>' + feature.properties.title + '</h3>'
+      result = '<h1>' + feature.properties.title + '</h1>'
       var featureDetails = feature.properties.details;
       if (feature.properties.url_info) {
         var displayValue = shortVersion(feature.properties.url_info);
