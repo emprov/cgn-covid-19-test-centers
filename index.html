@@ -11,10 +11,39 @@
     body {
       margin: 0;
       padding: 0;
+      font-family: "Poppins", Arial, sans-serif;
     }
+
     table {
       margin-top: 2em;
       margin-bottom: 3em;
+    }
+
+    .btn {
+      display: inline-block;
+      border-radius: 3px;
+      text-align: center;
+      padding: 1em;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      transition: all 0.5s;
+      cursor: pointer;
+    }
+
+    .primary-btn {
+      background-color: #d300bf;
+      border: 1px #cccccc;
+      color: #eeeeee;
+    }
+
+    .secondary-btn {
+      background-color: #ffffff;
+      border: 1px solid #d300bf;
+    }
+
+    a {
+      color: #d300bf
     }
 
     td,
@@ -31,9 +60,9 @@
       color: white;
     }
 
-    tr:nth-child(even){
+    tr:nth-child(even) {
       background-color: #f2f2f2;
-      }
+    }
 
     button {
       margin: 0.2em
@@ -46,7 +75,7 @@
       width: 100%;
     }
 
-    #details-content{
+    #details-content {
       margin: 2em;
     }
 
@@ -138,7 +167,8 @@
       result = '<h3>' + feature.properties.title + '</h3>'
       var featureDetails = feature.properties.details;
       if (feature.properties.url_info) {
-        result = result + '<a href=\"' + feature.properties.url_info + '\">' + feature.properties.url_info + '</a>'
+        var displayValue = shortVersion(feature.properties.url_info);
+        result = result + '<a href=\"' + feature.properties.url_info + '\">' + displayValue + '</a>'
       }
       if (featureDetails !== undefined && featureDetails !== null && featureDetails !== '') {
         result = result + featureDetails;
@@ -147,12 +177,16 @@
       return result;
     }
 
+    function shortVersion(longText){
+      return (longText.length>50) ? longText.substring(0,50) + "..." : longText
+    }
+
     function getPopupHtml(feature) {
       var popupHtml = ''
       var title = '<h3>' + feature.properties.title + '</h3>'
       var address = '<p>' + feature.properties.address_street + ', ' + feature.properties.address_city + '</p>'
-      var buttonAppointment = (feature.properties.url_booking) ? '<button class="primary-btn" onclick="window.location.href=\'' + feature.properties.url_booking + '\';">Termin buchen</button>' : ''
-      var buttonGeneral = (feature.properties.url_info || feature.properties.details) ? '<button onclick="showDetailDiv();">Details</button>' : ''
+      var buttonAppointment = (feature.properties.url_booking) ? '<button class="btn primary-btn" onclick="window.location.href=\'' + feature.properties.url_booking + '\';">Termin buchen</button>' : ''
+      var buttonGeneral = (feature.properties.url_info || feature.properties.details) ? '<button class="btn secondary-btn" onclick="showDetailDiv();">Details</button>' : ''
       popupHtml = title + address + buttonAppointment + buttonGeneral
       return popupHtml
     };
