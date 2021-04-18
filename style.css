@@ -168,9 +168,10 @@ button {
 
 .modal-content {
     position: relative;
-    top: 15%;
+    top: 10%;
     background-color: #fefefe;
     margin: auto;
+    margin-bottom: 15%;
     padding: 0;
     border: 1px solid #888;
     max-width: 50%;
