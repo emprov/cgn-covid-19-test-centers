@@ -14,7 +14,7 @@
     <!-- Title Box -->
     <div id='title'>
         <div class='minor-links'>
-            <a id='link-to-why' href='#'>Warum</a> | <a href='#'>Impressum</a> | <a href='#'>Datenschutz</a>
+            <a id='link-to-why' href='#'>Warum</a> | <a id='link-to-impressum' href='#'>Impressum</a> | <a id='link-to-gdpr' href='#'>Datenschutz</a>
         </div>
         <h2>Testangebote in Köln</h2>
     </div>
@@ -36,6 +36,28 @@
                 <p>
                     <b>Es muss einfach sein.</b> Niemand möchte andere Menschen mit Corona anstecken. Deswegen muss es leicht sein, eine Testmöglichkeit zu finden. Wenn es leicht ist, einen Test zu kriegen, ist es leichter verantwortungsvoll zu handeln.
                 </p>
+            </div>
+        </div>
+    </div>
+    <div id="impressum-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Impressum</h2>
+            </div>
+            <div class="modal-body">
+                <p>Platzhalter Impressum</p>
+            </div>
+        </div>
+    </div>
+    <div id="gdpr-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Datenschutz</h2>
+            </div>
+            <div class="modal-body">
+                <p>Platzhalter Datenschutz</p>
             </div>
         </div>
     </div>
@@ -121,6 +143,12 @@
         function initializeModals() {
             document.getElementById('link-to-why').onclick = function() {
                 document.getElementById('why-modal').style.display = 'block';
+            }
+            document.getElementById('link-to-impressum').onclick = function() {
+                document.getElementById('impressum-modal').style.display = 'block';
+            }
+            document.getElementById('link-to-gdpr').onclick = function() {
+                document.getElementById('gdpr-modal').style.display = 'block';
             }
         }
 
