@@ -69,6 +69,27 @@
       margin: 0.2em
     }
 
+    #title {
+      margin-bottom: 5px;
+      position: fixed;
+      top: 5px;
+      left:5px;
+      z-index: 1;
+      background: white;
+      opacity: .97;
+      overflow: auto;
+      border: 1px solid;
+      padding-left: 20px;
+      padding-right: 20px;
+      box-shadow: 0 5px 15px;
+    }
+
+    .minor-links {
+      font-size: small;
+      text-align: center;
+      padding-top: 5px;
+    }
+
     #map {
       position: absolute;
       top: 0;
@@ -98,9 +119,9 @@
     .cd-panel__container {
       position: fixed;
       padding: 2%;
-      max-width: 50%;
+      max-width: 30%;
       height: 100%;
-      top: 0;
+      top: 5px;
       transition: transform 0.3s 0.3s;
       z-index: 1;
       background: white;
@@ -124,6 +145,12 @@
 </head>
 
 <body>
+  <div id='title'>
+    <div class='minor-links'>
+      <a href='#'>Warum</a> | <a href='#'>Impressum</a> | <a href='#'>Datenschutz</a>
+    </div>
+    <h2>Testangebote in Köln</h2>
+  </div>
   <div id='map'></div>
   <div id='details' class="cd-panel cd-panel--from-right">
     <div class="cd-panel__container">
