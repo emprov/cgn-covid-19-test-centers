@@ -14,7 +14,7 @@
     <!-- Title Box -->
     <div id='title'>
         <div class='minor-links'>
-            <a id='modal-why' href='#'>Warum</a> | <a href='#'>Impressum</a> | <a href='#'>Datenschutz</a>
+            <a id='link-to-why' href='#'>Warum</a> | <a href='#'>Impressum</a> | <a href='#'>Datenschutz</a>
         </div>
         <h2>Testangebote in Köln</h2>
     </div>
@@ -34,8 +34,7 @@
                     <a href='https://www.stadt-koeln.de/leben-in-koeln/gesundheit/infektionsschutz/corona-virus/beauftragte-teststellen-koeln'>stadt-koeln.de</a> führt alle vom Gesundheitsamt zertifizierten Teststellen auf - eine Liste von über 150 Adressen.
                 </p>
                 <p>
-                    <b>Es muss einfach sein.</b> Niemand möchte andere Menschen mit Corona anstecken. Deswegen muss es leicht sein, eine Testmöglichkeit zu finden. Wenn es leicht ist, einen Test zu kriegen, ist es leichter verantwortungsvoll zu handeln:
-                    Mit einem Test das Risiko zu senken, unwissentlich andere zu gefährden.
+                    <b>Es muss einfach sein.</b> Niemand möchte andere Menschen mit Corona anstecken. Deswegen muss es leicht sein, eine Testmöglichkeit zu finden. Wenn es leicht ist, einen Test zu kriegen, ist es leichter verantwortungsvoll zu handeln.
                 </p>
             </div>
         </div>
@@ -119,11 +118,37 @@
             element.classList.add("cd-panel--is-visible");
         }
 
-        window.onload = function() {
-            var linkToWhy = document.getElementById("modal-why");
-            linkToWhy.onclick = function() {
-                document.getElementById("why-modal").style.display = "block";
+        function initializeModals() {
+            document.getElementById('link-to-why').onclick = function() {
+                document.getElementById('why-modal').style.display = 'block';
             }
+        }
+
+        function intializeModalClose() {
+            // Get the <span> element that closes the modal
+            var closeSpans = document.getElementsByClassName("close");
+            for (var i = 0; i < closeSpans.length; i++) {
+                closeSpans[i].onclick = function() {
+                    (this).closest('.modal').style.display = 'none';
+                }
+            }
+        }
+
+        function intializeOutOfModalClose() {
+            window.onclick = function(event) {
+                var allModals = document.getElementsByClassName("modal");
+                for (var i = 0; i < allModals.length; i++) {
+                    if (event.target == allModals[i]) {
+                        (event.target).closest('.modal').style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        window.onload = function() {
+            initializeModals();
+            intializeModalClose();
+            intializeOutOfModalClose();
         }
     </script>
 </body>
