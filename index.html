@@ -2,229 +2,130 @@
 <html lang='en'>
 
 <head>
-  <meta charset='utf-8' />
-  <title>Corona Testmöglichkeiten Köln</title>
-  <meta name='viewport' content='width=device-width, initial-scale=1' />
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Poppins", Arial, sans-serif;
-    }
-
-    table {
-      margin-top: 2em;
-      margin-bottom: 3em;
-    }
-
-    .btn {
-      display: inline-block;
-      border-radius: 3px;
-      text-align: center;
-      padding: 1em;
-      -webkit-transition: all 0.5s;
-      -moz-transition: all 0.5s;
-      -o-transition: all 0.5s;
-      transition: all 0.5s;
-      cursor: pointer;
-    }
-
-    .primary-btn {
-      background-color: #d300bf;
-      border: 1px #cccccc;
-      color: #eeeeee;
-    }
-
-    .secondary-btn {
-      background-color: #ffffff;
-      border: 1px solid #d300bf;
-    }
-
-    a {
-      color: #d300bf;
-      text-decoration: none;
-    }
-
-    td,
-    th {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-
-    th {
-      padding-top: 12px;
-      padding-bottom: 12px;
-      text-align: left;
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-
-    button {
-      margin: 0.2em
-    }
-
-    #title {
-      margin-bottom: 5px;
-      position: fixed;
-      top: 5px;
-      left:5px;
-      z-index: 1;
-      background: white;
-      opacity: .97;
-      overflow: auto;
-      border: 1px solid;
-      padding-left: 20px;
-      padding-right: 20px;
-      box-shadow: 0 5px 15px;
-    }
-
-    .minor-links {
-      font-size: small;
-      text-align: center;
-      padding-top: 5px;
-    }
-
-    #map {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 100%;
-    }
-
-    #details-content {
-      margin: 2em;
-    }
-
-    .cd-panel {
-      position: fixed;
-      visibility: hidden;
-      transition: visibility 0s 0.6s;
-    }
-
-    .cd-panel p {
-      padding-left: 5%;
-    }
-
-    .cd-panel.cd-panel--is-visible {
-      visibility: visible;
-      transition: visibility 0s 0s;
-    }
-
-    .cd-panel__container {
-      position: fixed;
-      padding: 2%;
-      max-width: 30%;
-      height: 100%;
-      top: 5px;
-      transition: transform 0.3s 0.3s;
-      z-index: 1;
-      background: white;
-      opacity: .97;
-      overflow: auto;
-      border: 1px solid;
-      padding: 10px;
-      box-shadow: 0 5px 15px;
-    }
-
-    .cd-panel--from-right .cd-panel__container {
-      right: 0;
-      transform: translate3d(100%, 0, 0);
-    }
-
-    .cd-panel--is-visible .cd-panel__container {
-      transform: translate3d(0, 0, 0);
-      transition-delay: 0s;
-    }
-  </style>
+    <meta charset='utf-8' />
+    <title>Corona Testmöglichkeiten Köln</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='style.css' rel='stylesheet' />
 </head>
 
 <body>
-  <div id='title'>
-    <div class='minor-links'>
-      <a href='#'>Warum</a> | <a href='#'>Impressum</a> | <a href='#'>Datenschutz</a>
+    <!-- Title Box -->
+    <div id='title'>
+        <div class='minor-links'>
+            <a id='modal-why' href='#'>Warum</a> | <a href='#'>Impressum</a> | <a href='#'>Datenschutz</a>
+        </div>
+        <h2>Testangebote in Köln</h2>
     </div>
-    <h2>Testangebote in Köln</h2>
-  </div>
-  <div id='map'></div>
-  <div id='details' class="cd-panel cd-panel--from-right">
-    <div class="cd-panel__container">
-      <div id='details-content' class="cd-panel__content">
-        <p>Platzhalter</p>
-      </div> <!-- cd-panel__content -->
-    </div> <!-- cd-panel__container -->
-  </div> <!-- cd-panel -->
+    <!-- WHY Modal -->
+    <div id="why-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Wo ist die nächstgelegene Testmöglichkeit?</h2>
+            </div>
+            <div class="modal-body">
+                <p>Das Ziel dieser Seite: Schnell und bequem zu einem professionellen Corona-Test gelangen.</p>
+                <p>
+                    <b>Informationen sind unzugänglich.</b> Die öffentlichen Informationen zu den Testmöglichkeiten sind nicht anwenderfreundlich. Die Seite
+                    <a href='https://www.koeln.de/koeln/nachrichten/lokales/hier-koennt-ihr-euch-in-koeln-auf-corona-testen-lassen_1162940.html'>koeln.de</a> listet Testmöglichkeiten verteilt auf über 25 Unterseiten auf - getrennt nach Anbietern. Die
+                    Seite
+                    <a href='https://www.stadt-koeln.de/leben-in-koeln/gesundheit/infektionsschutz/corona-virus/beauftragte-teststellen-koeln'>stadt-koeln.de</a> führt alle vom Gesundheitsamt zertifizierten Teststellen auf - eine Liste von über 150 Adressen.
+                </p>
+                <p>
+                    <b>Es muss einfach sein.</b> Niemand möchte andere Menschen mit Corona anstecken. Deswegen muss es leicht sein, eine Testmöglichkeit zu finden. Wenn es leicht ist, einen Test zu kriegen, ist es leichter verantwortungsvoll zu handeln:
+                    Mit einem Test das Risiko zu senken, unwissentlich andere zu gefährden.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id='map'></div>
+    <div id='details' class="cd-panel cd-panel--from-right">
+        <div class="cd-panel__container">
+            <div id='details-content' class="cd-panel__content">
+                <p>Platzhalter</p>
+            </div>
+            <!-- cd-panel__content -->
+        </div>
+        <!-- cd-panel__container -->
+    </div>
 
-  <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvYnJ1bmkiLCJhIjoiY2tuNGdtODQ3MW95cTJ2cGMydG55NmVvZyJ9.r1c6ZZHO09sqjY7nf3z8lw';
-    var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/geobruni/ckn4jrhbx1rx417mrzjft8nrl',
-      center: [6.948101, 50.933858],
-      zoom: 12
-    });
 
-    map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: ['testlocations-detailed']
-      });
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvYnJ1bmkiLCJhIjoiY2tuNGdtODQ3MW95cTJ2cGMydG55NmVvZyJ9.r1c6ZZHO09sqjY7nf3z8lw';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/geobruni/ckn4jrhbx1rx417mrzjft8nrl',
+            center: [6.948101, 50.933858],
+            zoom: 12
+        });
 
-      if (!features.length) {
-        let element = document.getElementById('details');
-        element.classList.remove("cd-panel--is-visible")
-        return;
-      }
+        map.on('click', function(e) {
+            var features = map.queryRenderedFeatures(e.point, {
+                layers: ['testlocations-detailed']
+            });
 
-      var feature = features[0];
+            if (!features.length) {
+                let element = document.getElementById('details');
+                element.classList.remove("cd-panel--is-visible")
+                return;
+            }
 
-      var popupDetails = new mapboxgl.Popup({ offset: [0, -20], closeButton: false })
-        .setLngLat(feature.geometry.coordinates)
-        .setHTML(getPopupHtml(feature))
-        .addTo(map);
+            var feature = features[0];
 
-      document.getElementById('details-content').innerHTML = getDetailsHtml(feature)
+            var popupDetails = new mapboxgl.Popup({
+                    offset: [0, -20],
+                    closeButton: false
+                })
+                .setLngLat(feature.geometry.coordinates)
+                .setHTML(getPopupHtml(feature))
+                .addTo(map);
 
-    });
+            document.getElementById('details-content').innerHTML = getDetailsHtml(feature)
 
-    function getDetailsHtml(feature) {
-      result = '<h1>' + feature.properties.title + '</h1>'
-      var featureDetails = feature.properties.details;
-      if (feature.properties.url_info) {
-        var displayValue = shortVersion(feature.properties.url_info);
-        result = result + '<a href=\"' + feature.properties.url_info + '\">' + displayValue + '</a>'
-      }
-      if (featureDetails !== undefined && featureDetails !== null && featureDetails !== '') {
-        result = result + featureDetails;
-      }
+        });
 
-      return result;
-    }
+        function getDetailsHtml(feature) {
+            result = '<h1>' + feature.properties.title + '</h1>'
+            var featureDetails = feature.properties.details;
+            if (feature.properties.url_info) {
+                var displayValue = shortVersion(feature.properties.url_info);
+                result = result + '<a href=\"' + feature.properties.url_info + '\">' + displayValue + '</a>'
+            }
+            if (featureDetails !== undefined && featureDetails !== null && featureDetails !== '') {
+                result = result + featureDetails;
+            }
 
-    function shortVersion(longText){
-      return (longText.length>50) ? longText.substring(0,50) + "..." : longText
-    }
+            return result;
+        }
 
-    function getPopupHtml(feature) {
-      var popupHtml = ''
-      var title = '<h3>' + feature.properties.title + '</h3>'
-      var address = '<p>' + feature.properties.address_street + ', ' + feature.properties.address_city + '</p>'
-      var buttonAppointment = (feature.properties.url_booking) ? '<button class="btn primary-btn" onclick="window.location.href=\'' + feature.properties.url_booking + '\';">Termin buchen</button>' : ''
-      var buttonGeneral = (feature.properties.url_info || feature.properties.details) ? '<button class="btn secondary-btn" onclick="showDetailDiv();">Details</button>' : ''
-      popupHtml = title + address + buttonAppointment + buttonGeneral
-      return popupHtml
-    };
+        function shortVersion(longText) {
+            return (longText.length > 50) ? longText.substring(0, 50) + "..." : longText
+        }
 
-    function showDetailDiv() {
-      let element = document.getElementById('details');
-      element.classList.add("cd-panel--is-visible")
-    }
+        function getPopupHtml(feature) {
+            var popupHtml = ''
+            var title = '<h3>' + feature.properties.title + '</h3>'
+            var address = '<p>' + feature.properties.address_street + ', ' + feature.properties.address_city + '</p>'
+            var buttonAppointment = (feature.properties.url_booking) ? '<button class="btn primary-btn" onclick="window.location.href=\'' + feature.properties.url_booking + '\';">Termin buchen</button>' : ''
+            var buttonGeneral = (feature.properties.url_info || feature.properties.details) ? '<button class="btn secondary-btn" onclick="showDetailDiv();">Details</button>' : ''
+            popupHtml = title + address + buttonAppointment + buttonGeneral
+            return popupHtml
+        };
 
-  </script>
+        function showDetailDiv() {
+            let element = document.getElementById('details');
+            element.classList.add("cd-panel--is-visible");
+        }
+
+        window.onload = function() {
+            var linkToWhy = document.getElementById("modal-why");
+            linkToWhy.onclick = function() {
+                document.getElementById("why-modal").style.display = "block";
+            }
+        }
+    </script>
 </body>
 
 </html>
